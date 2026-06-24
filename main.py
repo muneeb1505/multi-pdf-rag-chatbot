@@ -47,23 +47,25 @@ rag_chain = None
 # ------------------------
 # LLM
 # ------------------------
+@app.on_event("startup")
+def startup_event():
+    global model
+    global embeddings
 
-llm = HuggingFaceEndpoint(
-    repo_id="meta-llama/Llama-3.3-70B-Instruct",
-    temperature=0.1,
-    top_p=0.9,
-    repetition_penalty=1.05,
-    max_new_tokens=512
-)
+    llm = HuggingFaceEndpoint(
+        repo_id="meta-llama/Llama-3.3-70B-Instruct",
+        temperature=0.1,
+        top_p=0.9,
+        repetition_penalty=1.05,
+        max_new_tokens=512
+    )
 
-model = ChatHuggingFace(llm=llm)
+    model = ChatHuggingFace(llm=llm)
 
-
-# 3. Create embeddings
-embeddings = HuggingFaceEmbeddings(
-    model_name="BAAI/bge-base-en-v1.5"
-)
-
+    embeddings = HuggingFaceEmbeddings(
+        model_name="BAAI/bge-base-en-v1.5"
+    )
+    
 
 # ------------------------
 # Request Schemas
